@@ -1,0 +1,74 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Authorization {
+  access_token: String!
+  refresh_token: String!
+  user: User!
+}
+
+input CreateShareInput {
+  url: String!
+}
+
+type GetSharesOutput {
+  data: [Share!]!
+  total: Float!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createShare(createShareInput: CreateShareInput!): Share!
+  login(loginInput: LoginInput!): Authorization!
+  refreshToken: Authorization!
+  register(registrationInput: RegistationInput!): Authorization!
+}
+
+input PagingInput {
+  limit: Float
+  page: Float
+  query: JSON
+  search: String
+  sort: JSON
+}
+
+type Query {
+  getShares(pagingInput: PagingInput!): GetSharesOutput!
+  getUser: User!
+}
+
+input RegistationInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+type Share {
+  _id: ID!
+  channel: String!
+  created_at: String!
+  description: String!
+  thumbnail: String!
+  title: String!
+  updated_at: String!
+  user: User
+  video_id: String!
+}
+
+type User {
+  _id: ID!
+  created_at: String!
+  email: String!
+  name: String!
+  updated_at: String!
+}

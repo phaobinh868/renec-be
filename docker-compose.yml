@@ -1,0 +1,108 @@
+version: '3.1'
+services:
+  app-service:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./apps/app/Dockerfile.dev
+    env_file:
+      - ./apps/app/.env
+    container_name: app-service
+    networks:
+      - app_network
+    depends_on:
+      - rabbitmq
+      - redis
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '3001:3001'
+  auth-service:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile.dev
+    env_file:
+      - ./apps/auth/.env
+    container_name: auth-service
+    networks:
+      - app_network
+    depends_on:
+      - user-data
+      - rabbitmq
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '3002:3002'
+  share-service:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./apps/share/Dockerfile.dev
+    env_file:
+      - ./apps/share/.env
+    container_name: share-service
+    networks:
+      - app_network
+    depends_on:
+      - share-data
+      - rabbitmq
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '3003:3003'
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    container_name: rabbitmq
+    networks:
+      - app_network
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+  user-data:
+    image: mongo:6-jammy
+    restart: always
+    container_name: user-data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - app_network
+    ports:
+      - '27018:27017'
+    volumes:
+      - user-data:/data/db
+  share-data:
+    image: mongo:6-jammy
+    restart: always
+    container_name: share-data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - app_network
+    ports:
+      - '27019:27017'
+    volumes:
+      - share-data:/data/db
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: redis
+    command: redis-server --save 20 1 --loglevel warning --requirepass danhvt
+    volumes:
+      - redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - app_network
+volumes:
+  user-data:
+  share-data:
+  redis:
+networks:
+  app_network:
