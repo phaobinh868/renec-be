@@ -11,4 +11,4 @@
 - yarn start:dev auth
 - yarn start:dev share
 6. Address
-- localhost:3000
+- localhost:3001
