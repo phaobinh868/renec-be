@@ -3,9 +3,9 @@ import { ClientProxy } from '@nestjs/microservices';
 import { GraphQLError } from 'graphql';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { SocketGateway } from '../socket/socket.gateway';
 import { PagingInput } from '@app/common/inputs/paging.input';
 import { Share, User } from '@app/common';
-import { SocketGateway } from '../socket/socket.gateway';
 export class ShareService {
   constructor(
     @Inject('SHARE') private readonly shareServiceClient: ClientProxy,

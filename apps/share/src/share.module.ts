@@ -3,7 +3,7 @@ import { ShareService } from './share.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ShareController } from './share.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Share, ShareSchema } from '@app/common';
+import { Share, ShareSchema } from 'libs/common/src';
 import { HttpModule } from '@nestjs/axios';
 @Module({
   imports: [
@@ -12,7 +12,6 @@ import { HttpModule } from '@nestjs/axios';
       envFilePath: './apps/share/.env',
     }),
     MongooseModule.forRootAsync({
-      connectionName: 'shares',
       imports: [ConfigModule.forRoot({
         envFilePath: './apps/share/.env',
       })],
@@ -29,7 +28,6 @@ import { HttpModule } from '@nestjs/axios';
           collection: 'shares',
         },
       ],
-      'shares',
     ),
     HttpModule
   ],

@@ -1,6 +1,5 @@
-FROM node:alpine As development
-WORKDIR /usr/src/app
+FROM node:21-alpine As development
+WORKDIR /usr/src/app/renec-be
 COPY package*.json ./
 RUN yarn install
-COPY . .
 CMD ["yarn", "start:dev", "auth"]

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { User, UserSchema } from '@app/common';
+import { User, UserSchema } from 'libs/common/src';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -11,7 +11,6 @@ import { MongooseModule } from '@nestjs/mongoose';
       envFilePath: './apps/auth/.env',
     }),
     MongooseModule.forRootAsync({
-      connectionName: 'users',
       imports: [ConfigModule.forRoot({
         envFilePath: './apps/auth/.env',
       })],
@@ -28,7 +27,6 @@ import { MongooseModule } from '@nestjs/mongoose';
           collection: 'users',
         },
       ],
-      'users',
     ),
   ],
   providers: [AuthService],

@@ -3,11 +3,11 @@ import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { LoginInput } from './inputs/login.input';
 import { AuthService } from './auth.service';
 import { RegistationInput } from './inputs/registration.input';
-import { User } from '@app/common';
-import { AuthorizationType } from '@app/common/type/authorization.type';
 import { UseGuards } from '@nestjs/common';
 import { JWTRefreshGuard } from './guards/jwt-refresh.guard';
 import { CurrentUser } from './decorators/user.decorator';
+import { AuthorizationType } from '@app/common/type/authorization.type';
+import { User } from '@app/common';
 @Resolver(() => User)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}

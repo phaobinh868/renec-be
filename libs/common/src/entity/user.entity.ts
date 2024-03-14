@@ -25,9 +25,6 @@ export class User {
   @Prop({ required: true, select: false })
   password: string;
 
-  @Prop({type: [String], select: false, default: []})
-  refresh_tokens: string[];
-
   @Field()
   created_at: string;
 

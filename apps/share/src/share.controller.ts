@@ -2,7 +2,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { Controller } from '@nestjs/common';
 import { ShareService } from './share.service';
 import { CreateShareInput } from './inputs/create.input';
-import { PagingInput } from '@app/common/inputs/paging.input';
+import { PagingInput } from 'libs/common/src/inputs/paging.input';
 @Controller('shares')
 export class ShareController {
   constructor(private readonly shareService: ShareService) { }

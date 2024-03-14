@@ -1,17 +1,17 @@
-import { Share, ShareDocument } from '@app/common';
 import { Injectable } from '@nestjs/common';
 import { CreateShareInput } from './inputs/create.input';
-import { BaseService } from '@app/common/utils/base-service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { RpcException } from '@nestjs/microservices';
+import { BaseService } from '@app/common/utils/base-service';
+import { Share, ShareDocument } from '@app/common';
 
 @Injectable()
 export class ShareService extends BaseService {
   constructor(
-    @InjectModel(Share.name, 'shares') private ShareModel: Model<ShareDocument>,
+    @InjectModel(Share.name) private ShareModel: Model<ShareDocument>,
     private readonly httpService: HttpService,
     private readonly configService: ConfigService
   ) {
@@ -22,7 +22,7 @@ export class ShareService extends BaseService {
     const id = this.getIDfromURL(createShareInput.url);
     if(!id) throw new RpcException('Invalid Youtube Url');
     const videoDetail = await this.getVideoDetailById(id);
-    if(!id) throw new RpcException('Video not found');
+    if(!videoDetail) throw new RpcException('Video not found');
     const share = await this.createOne({user: createShareInput.user, ...videoDetail});
     return share;
   }
